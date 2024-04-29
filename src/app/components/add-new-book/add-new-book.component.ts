@@ -25,8 +25,14 @@ export class AddNewBookComponent {
         author:this.author,
         description:this.description,
         year:this.year,
-        status:this.status
-      })
+        status:this.status,
+        id:null,
+      }).subscribe(()=>{
+        this.author=null;
+        this.description=null;
+        this.year=null;
+        this.status=null;
+      });
       }
     }
 }

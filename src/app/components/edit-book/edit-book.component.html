@@ -1,6 +1,6 @@
 <div class="card mt-4">
     <div class="card-header">
-        Pridėti naują knygą
+        Atnaujinti informaciją
     </div>
     <div class="card-body">
         <div class="mb-3">
@@ -23,6 +23,6 @@
                 <option value="perskaityta">Perskaityta</option>
             </select>
         </div>
-        <button class="btn btn-primary" (click)="addBook()" [disabled]="author==null||description==null||year==null||status==null">Pridėti</button>
+        <button class="btn btn-primary" (click)="updateRecord()">Išsaugoti</button>
     </div>
 </div>

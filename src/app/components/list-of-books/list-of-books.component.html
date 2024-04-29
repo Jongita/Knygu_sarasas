@@ -20,9 +20,10 @@
                     <td>{{book.year}}</td>
                     <td>{{book.status}}</td>
                     <td>
-                        <a class="btn btn-success">Redaguoti</a>
+                        <!-- localhost:4200/edit/{{book.id}} -->
+                        <a class="btn btn-success" [routerLink]="['/edit', book.id]">Redaguoti</a>
                         &nbsp;&nbsp;
-                        <button class="btn btn-danger">Ištrinti</button>
+                        <button class="btn btn-danger" (click)="deleteRecord(book.id)">Ištrinti</button>
                     </td>
                 </tr>
             </tbody>
