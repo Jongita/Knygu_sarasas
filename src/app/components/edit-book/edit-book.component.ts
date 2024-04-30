@@ -19,16 +19,14 @@ export class EditBookComponent {
   public status:string|null=null;
 
   constructor(route:ActivatedRoute, private router:Router, private booksService:BooksService){
-      //Paimame aktyvaus kelio, parametrą id
+      
     this.id=route.snapshot.params['id']
-    // Uzkrauname viena irasa
+  
     this.booksService.loadRecord(this.id).subscribe((data)=>{
       this.author=data.author;
       this.description=data.description;
       this.year=data.year;
       this.status=data.status;
-      
-      console.log(data);
     });
   }
 
@@ -42,7 +40,6 @@ export class EditBookComponent {
       status:this.status
     }
     this.booksService.updateRecord(record).subscribe(()=>{
-      // po issaugojimo vartotoja nukreipia i sarasa
       this.router.navigate(['list'])
     });
   }
