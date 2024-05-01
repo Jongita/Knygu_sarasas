@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Book } from '../models/book';
 import { HttpClient } from '@angular/common/http';
-import { delay, map, tap } from 'rxjs';
+import { delay, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +30,11 @@ export class BooksService {
     }))
     .pipe(
         delay(1000)
-      );
+      )
   }
+
+
+  
 
   public loadRecord(id:string){
     return this.http.get<Book>("https://knygu-sarasas-default-rtdb.europe-west1.firebasedatabase.app/books/"+id+".json");
