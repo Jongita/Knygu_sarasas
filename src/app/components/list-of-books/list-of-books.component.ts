@@ -4,11 +4,12 @@ import { Book } from '../../models/book';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LoadingComponent } from '../loading/loading.component';
+import { ErrorComponent } from '../error/error.component';
 
 @Component({
   selector: 'app-list-of-books',
   standalone: true,
-  imports: [CommonModule, RouterLink, LoadingComponent],
+  imports: [CommonModule, RouterLink, LoadingComponent, ErrorComponent],
   templateUrl: './list-of-books.component.html',
   styleUrl: './list-of-books.component.css'
 })
@@ -47,12 +48,17 @@ public constructor(private booksService:BooksService){
 
   public deleteRecord(id:string|null){
     if (id!=null){
+    this.isLoading=true;
     this.booksService.deleteRecord(id).subscribe(()=>{
       this.loadData();
 
-    })
+    });
   }
   }
+  public closeError(){
+    this.loadData();
+  }
+
 }
 
 
