@@ -2,6 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Book } from '../models/book';
 import { HttpClient } from '@angular/common/http';
 import { catchError, delay, map, tap } from 'rxjs';
+import { AuthServiceService } from './auth-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +12,13 @@ export class BooksService {
   public books:Book[]=[];
 
   public onBooksCountChange=new EventEmitter();
+  public onStatusChange=new EventEmitter<Number>();
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, private authService:AuthServiceService) { }
 
   public addBook(item:Book){
     this.books.push(item);
-    return this.http.post("https://knygu-sarasas-default-rtdb.europe-west1.firebasedatabase.app/books.json",item).pipe(
+    return this.http.post("https://knygu-sarasas-default-rtdb.europe-west1.firebasedatabase.app/books.json?auth="+this.authService.auth?.idToken,item).pipe(
       tap(()=>this.onBooksCountChange.emit())
     );
   }
@@ -43,7 +45,7 @@ export class BooksService {
 
 
   public loadData(){
-    return this.http.get<{[key:string]:Book}>("https://knygu-sarasas-default-rtdb.europe-west1.firebasedatabase.app/books.json")
+    return this.http.get<{[key:string]:Book}>("https://knygu-sarasas-default-rtdb.europe-west1.firebasedatabase.app/books.json?auth="+this.authService.auth?.idToken)
     .pipe(
       map( (data):Book[]=>{
       let books=[];
@@ -54,6 +56,12 @@ export class BooksService {
      return books;
     }))
     .pipe(
+        catchError( (er,c)=>{ 
+          this.onStatusChange.emit(1);
+          throw "Klaida";
+        })
+      )   
+    .pipe(
         delay(1000)
       )
   }
@@ -62,16 +70,16 @@ export class BooksService {
   
 
   public loadRecord(id:string){
-    return this.http.get<Book>("https://knygu-sarasas-default-rtdb.europe-west1.firebasedatabase.app/books/"+id+".json");
+    return this.http.get<Book>("https://knygu-sarasas-default-rtdb.europe-west1.firebasedatabase.app/books/"+id+".json?auth="+this.authService.auth?.idToken);
     
   }
 
   public updateRecord(item:Book){
-    return this.http.patch("https://knygu-sarasas-default-rtdb.europe-west1.firebasedatabase.app/books/"+item.id+".json", item)
+    return this.http.patch("https://knygu-sarasas-default-rtdb.europe-west1.firebasedatabase.app/books/"+item.id+".json?auth="+this.authService.auth?.idToken, item);
   }
 
   public deleteRecord(id:string){
-    return this.http.delete("https://knygu-sarasas-default-rtdb.europe-west1.firebasedatabase.app/books/"+id+".json").pipe(
+    return this.http.delete("https://knygu-sarasas-default-rtdb.europe-west1.firebasedatabase.app/books/"+id+".json?auth="+this.authService.auth?.idToken).pipe(
       tap(()=>this.onBooksCountChange.emit())
     );
   }

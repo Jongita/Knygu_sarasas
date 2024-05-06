@@ -14,11 +14,11 @@ export class ErrorComponent {
  @Output()
  close=new EventEmitter();
 
- constructor(){
-  setTimeout(()=>{
-    this.close.emit();
-  },5000);
- }
+//  constructor(){
+//   setTimeout(()=>{
+//     this.close.emit();
+//   },5000);
+//  }
 
 
  public closeClick(){

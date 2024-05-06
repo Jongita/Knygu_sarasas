@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LoadingComponent } from '../loading/loading.component';
 import { ErrorComponent } from '../error/error.component';
+import { AuthServiceService } from '../../services/auth-service.service';
 
 @Component({
   selector: 'app-list-of-books',
@@ -19,9 +20,11 @@ public books:Book[]=[];
 public isLoading=false;
 public isError=false;
 
-public constructor(private booksService:BooksService){
+public constructor(private booksService:BooksService, private authService:AuthServiceService){
  
   this.loadData();
+  // this.authService.register("jongita@yahoo.com", "LabasRytas", false);
+
   }
 
   private loadData(){
