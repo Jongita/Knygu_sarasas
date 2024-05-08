@@ -14,6 +14,7 @@ export class ErrorComponent {
  @Output()
  close=new EventEmitter();
 
+// Kad pats po tam tikro laiko bandytu parsiust sarasa
 //  constructor(){
 //   setTimeout(()=>{
 //     this.close.emit();
